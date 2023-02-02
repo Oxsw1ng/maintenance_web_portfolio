@@ -1,0 +1,306 @@
+@font-face
+{
+    font-family:Akira;
+    src:url('AkiraExpanded.otf');
+}
+
+@font-face
+{
+    font-family:Avenir;
+    src:url('Avenir-Medium.otf');
+}
+
+@font-face
+{
+    font-family:Mark;
+    src:url('Mark-Heavy.ttf');
+}
+
+body
+{
+    background-image:url("img.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:white;
+    font-family: Arial;
+    text-align: center;
+}
+
+h1
+{
+    color: red;
+    font-size: 5vw;
+    margin-top: 3%;
+    text-align: center;
+}
+
+#GrandTitre{
+    font-family: Akira;
+    user-select: none;
+    text-shadow: 0 0 60px rgba(255,255,255,.5);
+
+    /* Clip Background Image */
+
+    background: url('animated-text-fill.png') repeat-y;
+    -webkit-background-clip: text;
+
+
+    /* Animate Background Image */
+
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: aitf 80s linear infinite;
+
+    /* Activate hardware acceleration for smoother animations */
+
+    -webkit-transform: translate3d(0,0,0);
+    -webkit-backface-visibility: hidden;
+
+}
+
+/* Animate Background Image */
+
+@-webkit-keyframes aitf {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+
+#btnRetour {
+    margin-left: 7%;
+    position: fixed;
+    top: 10%;
+    left: 2%;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    background-color: #bf0000;
+}
+
+#btnRetour:hover {
+    transform: rotate3d(1, 1, 1, 360deg);
+    transition-duration: 1s;
+}
+
+#btnRetour > img {
+    horiz-align: left;
+    max-height: 40px;
+}
+
+#menu{
+    display: inline-flex;
+}
+
+h2 {
+    text-decoration: underline;
+    user-select: none;
+}
+
+.btnsubmit
+{
+    background-color: #bf0000;
+    min-width: 150px;
+    padding:1% 1% 1% 1%;
+    margin:15px 0 0 0;/*15px 2% 15px 2%;*/
+    color:white;
+    border-radius: 5px;
+    border-left-color: gray;
+    border-right-color: white;
+    border-width: 0px 2px 0px 2px;
+    font-size:1.4vw;
+
+}
+#premierBtn
+{
+    /*border-left-width: 0px;*/
+    /*border-radius: 20% 0 0 20%;*/
+}
+
+#dernierBtn
+{
+    /*border-right-width: 0px;*/
+    /*border-radius: 0 20% 20% 0;*/
+}
+
+#f1 input
+{
+    border:2px solid black;
+    background-color: white;
+    color: black;
+    margin-top:5px;
+    height:6vh;
+    padding-left:1.5%;
+}
+
+#f1 button
+{
+    background-color: #bf0000;
+    padding:1% 1% 1% 1%;
+    margin:15px 2% 5vh 2%;
+    color:white;
+    border:0px;
+    font-size:1.4vw;
+    height:6vh;
+}
+
+#f1 a
+{
+    text-decoration:none;
+    color:#00bfbf;
+    text-decoration:underline;
+    margin-top:20px;
+    height:6vh;
+    padding:1.5vh 1.5% 1.5vh 1.5%;
+}
+.btnsubmit:hover{
+    cursor: pointer;
+    color: black;
+    transform: scale(1.1);
+}
+
+#f1 a:hover, #f1 button:hover, .episode > li > button:hover
+{
+    text-decoration:underline;
+    cursor: pointer;
+}
+
+.serie > li > button:hover , #fin
+{
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#accueil li
+{
+    list-style-type:none;
+    vertical-align:center;
+}
+
+#accueil li button , #fin
+{
+    margin:0.5% 2% 0.5% 2%;
+    align-items: center;
+    text-align:left;
+    font-size:2vw;
+    width:50vw;
+    height:auto;
+    padding:0;
+}
+
+
+#accueil > li > button > img, #fin > img
+{
+    horiz-align: left;
+    max-height:15vh;
+}
+
+#accueil{
+    display: flex;
+    flex-direction: column;
+}
+
+#txtbtn
+{
+    padding-top:6vh;
+    padding-bottom:3vh;
+    display:inline-block;
+    vertical-align:top;
+    margin-left:2vw;
+}
+
+#detailserie
+{
+    width:50vw;
+    margin:auto;
+    text-align: justify;
+}
+
+#detailserie h2
+{
+    font-size:2.8vw;
+    width:60vw;
+    text-align:left;
+}
+
+#search
+{
+    width:50vw;
+    margin:auto;
+    text-align: center;
+    padding:3vh 0 3vh 0;
+    font-size: 2vw;
+}
+
+#search input
+{
+    font-size: 1.4vw;
+    border:3px solid black;
+    padding:0.5vh 1vw 0.5vh 1vw;
+}
+
+#search input:hover
+{
+    border:3px solid white;
+}
+
+#search #searchbar:hover
+{
+    cursor: text;
+    color:white;
+    background-color: black;
+}
+
+#search #btnsearch:hover
+{
+    cursor: pointer;
+    background-color: #bf0000;
+    color:white;
+}
+
+#infoSerie
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.btnFav
+{
+    margin: 10px auto;
+    width: 150px;
+}
+
+#comLink,#comLink:visited{
+    color: skyblue;
+}
+#comLink:hover
+{
+    font-size: 2vw;
+}
+
+#comtr
+{
+    margin-top:2vh;
+}
+
+#descprofilgnr
+{
+    font-size: 1vw;
+    text-decoration:underline;
+}
+
+.profil > img {
+    margin-right: 5px;
+}
+.profil
+{
+    margin:10px 10px 10px 10px;
+}
+
+.profile
+{
+    max-height:3vh;
+}
+
+/*style="background-color: #1a1a1a; color: white;"*/
