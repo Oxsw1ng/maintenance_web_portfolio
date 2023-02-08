@@ -12,6 +12,7 @@ class ActionChercher extends Action
     public function execute(): string
     {
         $html = "";
+        $html .= ActionCatalogue::triAffichageRecherche();
         //doit afficher la liste des series retenu a la selection
         $html .= "<form id='accueil' method='post' enctype='multipart/form-data' action = ''>";
         $html .= $this->afficherListe();
@@ -44,22 +45,22 @@ class ActionChercher extends Action
         $terme = strtolower($_GET["terme"]);
         $listeSerie = [];
         while ($datas = $result->fetch(\PDO::FETCH_ASSOC)) {
-            $titre = strtolower($datas['titre']);
-            $description = strtolower($datas['descriptif']);
-            //verifier si les termes sont dans motsTitre ,
-            if ($this->estDansPhrase($titre, $terme)) {
-//                echo $titre;
 
+            // Selon le choix de recherche, lancer la recherche des séries
+            if ($_GET["searchType"] == "titre") {
+                $titre = strtolower($datas['titre']);
+                if ($this->estDansPhrase($titre, $terme)) {
+                    $newSerie = new Serie($datas['titre'], $datas['img'], $datas['descriptif'], $datas['annee'], $datas['date_ajout'], $datas['id']);
+                    $listeSerie[] = $newSerie;
+                }
+            } elseif ($_GET["searchType"] == "description") {
+                $description = strtolower($datas['descriptif']);
+                if ($this->estDansPhrase($description, $terme)) {
+                    $newSerie = new Serie($datas['titre'], $datas['img'], $datas['descriptif'], $datas['annee'], $datas['date_ajout'], $datas['id']);
+                    $listeSerie[] = $newSerie;
+                }
             }
-
-
-            $termeInSerie = $this->estDansPhrase($titre, $terme) || $this->estDansPhrase($description, $terme);
-
-            if ($termeInSerie) {
-                $newSerie = new Serie($datas['titre'], $datas['img'], $datas['descriptif'], $datas['annee'], $datas['date_ajout'], $datas['id']);
-                $listeSerie[] = $newSerie;
-            }
-
+                
         }
         return $listeSerie;
     }

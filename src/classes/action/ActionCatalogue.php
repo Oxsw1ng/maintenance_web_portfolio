@@ -12,42 +12,8 @@ class ActionCatalogue extends Action
 
     public function execute(): string
     {
-        $html = <<<end
-                    <form id="search" action ="" method = "get">
-                <input id="searchbar" type = "search" name = "terme">
-                <input id="btnsearch" type = "submit" name = "action" value = "rechercher">
-                </form>
-                end;
-
-        $html .= "
-            <form id=\"f1\" method=\"post\" action='?action=catalogue'>
-                        <div style=\"text-align: center\"> 
-                        <label for='filtre-select'> filtrer par genre : </label>
-                        <select name='filtrer' id='filtre-select'>
-                            <option value='action'>Action </option>
-                            <option value='aventure'>aventure</option>
-                            <option value='thriller'>Thriller</option>
-                            <option value='horreur'>Horreur</option>
-                            <option value='romance'>romance</option>
-                            
-                        </select>
-                        <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Filtrer </button> </div>
-                        </form>";
-
-
-        $html .= " <form id=\"f1\" method=\"post\" action='?action=catalogue'>
-                        <div style=\"text-align: center\"> 
-                        <label for='tri-select'> Trier par : </label>
-                        <select name='tri' id='tri-select'>
-                            <option value=''> </option>
-                            <option value='titre'>Titre</option>
-                            <option value='dateAjout'>Date d'ajout sur la plateforme</option>
-                            <option value='annee'>Annee</option>
-                            <option value='noteMoyenne'>Note moyenne</option>
-                        </select>
-                        <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Trier </button> </div>
-                        </form>";
-
+        $html = "";
+        $html .= ActionCatalogue::triAffichageRecherche();
         try {
             $db = ConnectionFactory::makeConnection();
         } catch (\Exception $e) {
@@ -106,6 +72,51 @@ class ActionCatalogue extends Action
         }
         $result->closeCursor();
         $html .= '</form></center></ul>';
+
+        return $html;
+    }
+
+    public static function triAffichageRecherche() : string {
+        $html = "
+                    <form id=\"search\" action =\"\" method = \"get\">
+                    <label for='filtre-select' font-size='5px'> Chercher dans : </label>
+                    <select name='searchType' id='search-select'>
+                        <option value='titre'> Titre </option>
+                        <option value='description'> Description</option>
+                    </select>
+                    <input id=\"searchbar\" type = \"search\" name = \"terme\">
+                    <input id=\"btnsearch\" type = \"submit\" name = \"action\" value = \"rechercher\">
+                    </form>
+                ";
+
+        $html .= "
+            <form id=\"f1\" method=\"post\" action='?action=catalogue'>
+                        <div style=\"text-align: center\"> 
+                        <label for='filtre-select'> filtrer par genre : </label>
+                        <select name='filtrer' id='filtre-select'>
+                            <option value='action'>Action </option>
+                            <option value='aventure'>aventure</option>
+                            <option value='thriller'>Thriller</option>
+                            <option value='horreur'>Horreur</option>
+                            <option value='romance'>romance</option>
+                            
+                        </select>
+                        <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Filtrer </button> </div>
+                        </form>";
+
+
+        $html .= " <form id=\"f1\" method=\"post\" action='?action=catalogue'>
+                        <div style=\"text-align: center\"> 
+                        <label for='tri-select'> Trier par : </label>
+                        <select name='tri' id='tri-select'>
+                            <option value=''> </option>
+                            <option value='titre'>Titre</option>
+                            <option value='dateAjout'>Date d'ajout sur la plateforme</option>
+                            <option value='annee'>Annee</option>
+                            <option value='noteMoyenne'>Note moyenne</option>
+                        </select>
+                        <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Trier </button> </div>
+                        </form>";
 
         return $html;
     }
