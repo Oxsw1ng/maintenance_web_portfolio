@@ -60,6 +60,9 @@ class ActionProfil extends Action
                 $html .= "<div style=\"text-align:center\"><h3> Les changements n'ont pas été appliqués </h3> </div> <br>";
             }
 
+            // Affichage des informations courantes du profil
+            $html .= $this->infosCourantes($db);
+
             $html .= $this->profilHtml();
 
 
@@ -97,6 +100,28 @@ class ActionProfil extends Action
                             <button type=\"submit\" name=\"notsave\" value=\"vrai\"> Ne pas sauvegarder </button> 
                        </div> <br> <br>
                         </form>";
+    }
+
+    public function infosCourantes(\PDO $db) : string {
+        $html = "";
+        if (isset($_SESSION['id_user'])){
+            $db = ConnectionFactory::makeConnection();
+            $id = $_SESSION['id_user'];
+            // Répéter pour chaque information
+            $result2 = $db->prepare("SELECT nom FROM profils WHERE id_user=?");
+            $result2->execute([$id]);
+            $html .= "Votre nom : " . $result2->fetch()["nom"]."<br>";
+            $result2 = $db->prepare("SELECT prenom FROM profils WHERE id_user=?");
+            $result2->execute([$id]);
+            $html .= "Votre prénom : " . $result2->fetch()["prenom"]."<br>";
+            $result2 = $db->prepare("SELECT genre FROM profils WHERE id_user=?");
+            $result2->execute([$id]);
+            $html .= "Votre genre : " . $result2->fetch()["genre"]."<br>";
+            $result2 = $db->prepare("SELECT genresPref FROM profils WHERE id_user=?");
+            $result2->execute([$id]);
+            $html .= "Vos genres préférés : " . $result2->fetch()["genresPref"]."<br>";
+        }
+        return $html;
     }
 
 }
