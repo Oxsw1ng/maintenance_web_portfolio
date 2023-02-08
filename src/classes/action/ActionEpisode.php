@@ -48,6 +48,11 @@ class ActionEpisode extends Action
             $renderer = new RenderEpisode($episode);
             $html .= $renderer->render();
 
+            // Supprime le commentaire si l'utilisateur a appuyé sur le bouton
+            if (isset($_POST["del_commentaire"])) {
+                $this->deleteComm($db, $id_user, $id_serie);
+            }
+
             // Vérification si l'utilisateur a déjà laissé un commentaire pour cette série
             $stmt_comm = $db->prepare("SELECT COUNT(*) FROM commentaires WHERE id_user = ? AND id_serie = ?");
             $stmt_comm->execute([$id_user, $id_serie]);
@@ -59,7 +64,10 @@ class ActionEpisode extends Action
             }
 
             if ($commentaire) {
-                $html .= "<div style=\"text-align:center\"><h3> Vous avez déjà posté un commentaire pour cette série </h3> </div> <br>";
+                $html .= "<div style=\"text-align:center\"><h3> Vous avez déjà posté un commentaire pour cette série </h3> </div> <br>
+                        <form id=\"f1\" method=\"post\" action='?action=episode&id_episode=" . $_GET['id_episode'] . "'>
+                        <div> <button type=\"submit\" name=\"del_commentaire\"> Supprimer votre commentaire </button> </div>
+                        </form>";
             } else {
                 if (isset($_POST['note']) && isset($_POST['comm'])) {
                     $comm = filter_var($_POST['comm'], FILTER_SANITIZE_STRING);
@@ -70,7 +78,10 @@ class ActionEpisode extends Action
                         $stmt_addComm = $db->prepare("INSERT INTO commentaires VALUES (?,?,?,?);");
                         try {
                             $stmt_addComm->execute([$id_user, $id_serie, $_POST['note'], $comm]);
-                            $html .= "<div style=\"text-align:center\"><h3> Commentaire ajouté ! </h3> </div> <br>";
+                            $html .= "<div style=\"text-align:center\"><h3> Commentaire ajouté ! </h3> </div> <br>
+                            <form id=\"f1\" method=\"post\" action='?action=episode&id_episode=" . $_GET['id_episode'] . "'>
+                            <div> <button type=\"submit\" name=\"del_commentaire\"> Supprimer votre commentaire </button> </div>
+                            </form>";
                             Serie::getNoteMoyenne($id_serie);
                         } catch (\Exception $e) {
                             $html .= "<div style=\"text-align:center\"><h3> Erreur dans l'ajout du commentaire </h3> </div> <br>";
@@ -97,7 +108,13 @@ class ActionEpisode extends Action
                         <div style=\"text-align: center\"> 
                         <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Valider </button> </div>
                         </form>";
-    } // changer notation
+    } 
+
+    public function deleteComm(\PDO $db, $id_user, $id_serie): void
+    {
+        $stmt_encours = $db->prepare("DELETE FROM commentaires WHERE id_user=? AND id_serie=?");
+        $stmt_encours->execute([$id_user, $id_serie]);
+    } 
 
     public function serieEnCours(\PDO $db, $id_user, $id_serie) : string {
         $html = "";

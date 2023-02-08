@@ -51,6 +51,7 @@ class ActionProfil extends Action
                 $stmt_newInfo = $db->prepare("UPDATE profils SET nom = ?, prenom = ?, genre = ?, genresPref = ? WHERE id_user = ?;");
                 try {
                     $stmt_newInfo->execute([$new_nom, $new_prenom, $new_genre, $new_GenresPrefs, $_SESSION['id_user']]);
+                    $html .= "<div style=\"text-align:center\"><h3> Les changements ont bien été appliqués </h3> </div> <br>";
                 } catch (\Exception $e) {
                     $html .= "<div style=\"text-align:center\"><h3> Erreur dans la requête SQL </h3> </div> <br>";
                 }
@@ -97,4 +98,5 @@ class ActionProfil extends Action
                        </div> <br> <br>
                         </form>";
     }
+
 }
