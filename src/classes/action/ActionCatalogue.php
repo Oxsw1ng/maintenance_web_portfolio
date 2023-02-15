@@ -20,37 +20,43 @@ class ActionCatalogue extends Action
             $html .= "<p> Connection à la base de données impossible</p>";
         }
 
+        $tri = "";
+        $genre = "";
+        // Rajouter le filtre si il est set dans le tri
+        $ifFiltreSet = "";
         if (isset($_POST['tri'])) {
             $tri = $_POST['tri'];
         }
-        else if(isset($_POST['filtrer'])) {
-            $tri='genre';
-            $genre=$_POST['filtrer'];
+        if(isset($_POST['filtrer'])) {
 
-        }
-        else{
-            $tri="";
+            if ($tri == "") {
+                $tri='genre';
+            }
+            $genre=$_POST['filtrer'];
+            
+            if ($genre != "")  $ifFiltreSet = "where genre LIKE '$genre'";
+
         }
 
         switch ($tri) {
 
             case 'genre':
-                $html.=$this->tri($db,"SELECT * FROM serie where genre='$genre'");
+                $html.=$this->tri($db,"SELECT * FROM serie $ifFiltreSet");
                 break;
             case 'titre':
-                $html .= $this->tri($db, "SELECT * FROM serie  ORDER BY titre ASC");
+                $html .= $this->tri($db, "SELECT * FROM serie $ifFiltreSet ORDER BY titre ASC");
                 break;
             case 'dateAjout':
-                $html .= $this->tri($db, "SELECT * FROM serie ORDER BY date_ajout ASC");
+                $html .= $this->tri($db, "SELECT * FROM serie $ifFiltreSet ORDER BY date_ajout ASC");
                 break;
             case 'annee':
-                $html .= $this->tri($db, "SELECT * FROM serie ORDER BY annee ASC");
+                $html .= $this->tri($db, "SELECT * FROM serie $ifFiltreSet ORDER BY annee ASC");
                 break;
             case 'noteMoyenne':
-                $html .= $this->tri($db, "SELECT * FROM serie ORDER BY noteMoyenne ASC");
+                $html .= $this->tri($db, "SELECT * FROM serie $ifFiltreSet ORDER BY noteMoyenne ASC");
                 break;
             default:
-                $html .= $this->tri($db, "SELECT * FROM serie");
+                $html .= $this->tri($db, "SELECT * FROM serie $ifFiltreSet");
                 break;
         }
 
@@ -89,34 +95,30 @@ class ActionCatalogue extends Action
                     </form>
                 ";
 
-        $html .= "
-            <form id=\"f1\" method=\"post\" action='?action=catalogue'>
-                        <div style=\"text-align: center\"> 
-                        <label for='filtre-select'> filtrer par genre : </label>
-                        <select name='filtrer' id='filtre-select'>
-                            <option value='action'>Action </option>
-                            <option value='aventure'>aventure</option>
-                            <option value='thriller'>Thriller</option>
-                            <option value='horreur'>Horreur</option>
-                            <option value='romance'>romance</option>
-                            
-                        </select>
-                        <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Filtrer </button> </div>
-                        </form>";
 
-
-        $html .= " <form id=\"f1\" method=\"post\" action='?action=catalogue'>
-                        <div style=\"text-align: center\"> 
-                        <label for='tri-select'> Trier par : </label>
-                        <select name='tri' id='tri-select'>
-                            <option value=''> </option>
-                            <option value='titre'>Titre</option>
-                            <option value='dateAjout'>Date d'ajout sur la plateforme</option>
-                            <option value='annee'>Annee</option>
-                            <option value='noteMoyenne'>Note moyenne</option>
-                        </select>
-                        <button type=\"submit\" name=\"commentaire\" value=\"vrai\"> Trier </button> </div>
-                        </form>";
+                $html .= "<form id=\"f1\" method=\"post\" action='?action=catalogue'>
+                <div style=\"text-align: center\">
+                  <label for='tri-select'> Trier par : </label>
+                  <select name='tri' id='tri-select'>
+                    <option value=''> </option>
+                    <option value='titre'>Titre</option>
+                    <option value='dateAjout'>Date d'ajout sur la plateforme</option>
+                    <option value='annee'>Annee</option>
+                    <option value='noteMoyenne'>Note moyenne</option>
+                  </select>
+                  <label for='filtre-select'> filtrer par genre : </label>
+                  <select name='filtrer' id='filtre-select'>
+                    <option value=''></option>
+                    <option value='action'>Action </option>
+                    <option value='aventure'>aventure</option>
+                    <option value='thriller'>Thriller</option>
+                    <option value='horreur'>Horreur</option>
+                    <option value='romance'>romance</option>
+                  </select>
+                  <button type=\"submit\" name=\"action\" value=\"catalogue\">Trier et filtrer</button>
+                    </div>
+                </form>";
+  
 
         return $html;
     }
