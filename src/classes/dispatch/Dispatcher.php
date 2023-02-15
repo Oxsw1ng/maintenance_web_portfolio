@@ -74,10 +74,6 @@ class Dispatcher
                 $act = new ActionProfil();
                 $this->renderPage($act->execute());
                 break;
-            case 'rechercher':
-                $act=new ActionChercher();
-                $this->renderPage($act->execute());
-                break;
             case 'mdp-oublie':
                 $act=new ActionMotDePasseOublie();
                 $this->renderPage($act->execute());
